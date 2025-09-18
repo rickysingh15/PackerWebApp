@@ -8,3 +8,7 @@ class RegisterUserSchema(BaseModel):
     phone_number: str
     email: EmailStr
     password: str
+
+class LoginUserSchema(BaseModel):
+    email: EmailStr
+    password: str
