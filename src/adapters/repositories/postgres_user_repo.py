@@ -28,6 +28,12 @@ class PostgresUserRepo(UserRepository):
         return {"status": "saved in Postgres", "user": user_model.__dict__}
     
 
+    async def update(self, user_model: UserModel):
+        await self.db_session.commit()
+        await self.db_session.refresh(user_model)
+        logger.info(f"User updated with ID: {user_model.id}")
+        return {"status": "updated in Postgres", "user": user_model.__dict__}
+
     async def get_by_id(self, user_id: str):
         result = await self.db_session.execute(select(UserModel).where(UserModel.id == user_id))
         result = result.scalars().first()
