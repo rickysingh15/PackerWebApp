@@ -6,7 +6,7 @@ from src.infrastructure.logging.logger import get_logger
 logger = get_logger(__name__)
 
 def get_user_routes(user_controller: UserController):
-    router = APIRouter()
+    router = APIRouter("user", tags=["Users"])
 
     @router.post("/register")
     async def register_user(user: RegisterUserSchema):
