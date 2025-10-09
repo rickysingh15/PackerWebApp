@@ -15,6 +15,7 @@ class LoginUserSchema(BaseModel):
 
 class ResetPasswordSchema(BaseModel):
     email: EmailStr
+    old_password: str
     new_password: str
 
 class UserUpdateSchema(BaseModel):

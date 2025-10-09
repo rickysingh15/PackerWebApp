@@ -10,10 +10,14 @@ class ResetPasswordUseCase:
         self.user_repo = user_repo
         self.password_hasher = password_hasher
 
-    async def execute(self, email, new_password):
+    async def execute(self, email, new_password, old_password):
         user = await self.user_repo.get_by_email(email)
         if user is None:
             logger.warning(f"Login failed for email {email}: user not found.")
+            return {"status": "error", "message": "Invalid email or password."}
+
+        if self.password_hasher and not self.password_hasher.verify(old_password, user.password):
+            logger.warning(f"Login failed for email {email}: incorrect password.")
             return {"status": "error", "message": "Invalid email or password."}
 
         hashed_password = self.password_hasher.hash(new_password)
